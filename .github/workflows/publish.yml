@@ -1,0 +1,31 @@
+# Publishes to PyPI with trusted publishing when a GitHub release is published.
+# Disabled until the repo has moved and the PyPI project exists: add this workflow as a trusted
+# publisher of the "ampost" project on PyPI (environment "pypi"), then set the repository variable
+# PYPI_PUBLISH_ENABLED to "true".
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    if: vars.PYPI_PUBLISH_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - run: uv sync --locked
+      - run: uv run python scripts/generate.py && git diff --exit-code
+      - run: uv run pytest && uv run mypy
+      - run: uv build
+      - uses: pypa/gh-action-pypi-publish@release/v1

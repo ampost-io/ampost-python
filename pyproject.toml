@@ -1,0 +1,51 @@
+[project]
+name = "ampost"
+version = "0.1.0"
+description = "Official Python client for the Ampost API: publish and schedule posts on Instagram, Facebook, Threads, X, YouTube, Pinterest, Bluesky, Telegram and Discord"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Ampost" }]
+requires-python = ">=3.9"
+dependencies = ["httpx>=0.23,<1", "typing_extensions>=4.7"]
+keywords = ["ampost", "social media", "api", "sdk", "scheduling", "instagram", "threads", "bluesky"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://ampost.io?ref=pypi"
+Documentation = "https://ampost.io/docs?ref=pypi"
+Repository = "https://github.com/ampost-io/ampost-python"
+Issues = "https://github.com/ampost-io/ampost-python/issues"
+
+[dependency-groups]
+dev = ["pytest>=8", "mypy>=1.10"]
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ampost"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/ampost", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+strict = true
+files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+# Tests compare typed responses with plain dicts and lists.
+module = "tests.*"
+disable_error_code = ["comparison-overlap"]

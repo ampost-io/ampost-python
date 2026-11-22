@@ -1,0 +1,55 @@
+# CI for this repo once it lives at github.com/ampost-io/ampost-python. While the code is in the Ampost
+# app repo (public-repos/ampost-python), the root workflow .github/workflows/public-repos.yml runs instead.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  generated-code:
+    name: Generated code matches openapi.json
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python scripts/generate.py
+      - name: Fail if the committed code is stale
+        run: git diff --exit-code || (echo "::error::Run python scripts/generate.py and commit the result" && exit 1)
+
+  test:
+    name: Python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - run: uv sync --locked
+      - run: uv run pytest
+      - name: mypy (needs Python 3.10+)
+        if: matrix.python != '3.9'
+        run: uv run mypy
+
+  smoke:
+    name: Smoke test against the real API
+    runs-on: ubuntu-latest
+    env:
+      AMPOST_API_KEY: ${{ secrets.AMPOST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - run: uv sync --locked
+      - name: Smoke test (skipped without the AMPOST_API_KEY secret)
+        run: uv run pytest tests/test_smoke.py -rs
