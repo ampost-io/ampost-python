@@ -1,12 +1,15 @@
-# Publishes to PyPI with trusted publishing when a GitHub release is published.
-# Disabled until the repo has moved and the PyPI project exists: add this workflow as a trusted
-# publisher of the "ampost" project on PyPI (environment "pypi"), then set the repository variable
-# PYPI_PUBLISH_ENABLED to "true".
+# Publishes to PyPI with trusted publishing when a v<version> tag is pushed. The ampost repo's mirror
+# (scripts/mirror-public-repos.sh) pushes that tag when pyproject.toml gets a new version. Run it by
+# hand on a tag to retry.
+#
+# Off until the repository variable PYPI_PUBLISH_ENABLED is "true". Add this workflow as a trusted
+# publisher of the "ampost" project on PyPI first (owner ampost-io, repo ampost-python, workflow
+# publish.yml, environment "pypi"); PyPI accepts that before the project exists ("pending publisher").
 name: Publish to PyPI
 
 on:
-  release:
-    types: [published]
+  push:
+    tags: ["v*"]
   workflow_dispatch:
 
 permissions:
@@ -24,8 +27,17 @@ jobs:
       - uses: astral-sh/setup-uv@v6
         with:
           python-version: "3.13"
+      - name: The tag matches pyproject.toml
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"/\1/p' pyproject.toml | head -1)
+          if [ "$GITHUB_REF_TYPE" = tag ] && [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match pyproject.toml version $version"
+            exit 1
+          fi
       - run: uv sync --locked
       - run: uv run python scripts/generate.py && git diff --exit-code
       - run: uv run pytest && uv run mypy
       - run: uv build
       - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
