@@ -13,8 +13,10 @@ with one call.
 ## Install
 
 ```sh
-pip install ampost
+pip install git+https://github.com/ampost-io/ampost-python
 ```
+
+The package is coming to PyPI as `ampost`; until then, install it from this repo as above.
 
 ## Quick start
 
