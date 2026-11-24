@@ -54,25 +54,35 @@ class MediaInput(TypedDict):
 
 
 class ThreadItemInputMediaItem(TypedDict):
+    #: Public https URL
     url: str
+    #: Media kind
     type: Literal["image", "video"]
+    #: Alt text
     altText: NotRequired[str]
 
 
 class ThreadItemInput(TypedDict):
+    #: Item text. Default empty.
     text: NotRequired[str]
+    #: Item media. Default none.
     media: NotRequired[List[ThreadItemInputMediaItem]]
 
 
 class DiscordEmbedFieldsItem(TypedDict):
+    #: Field name.
     name: str
+    #: Field text.
     value: str
+    #: Side by side with other inline fields.
     inline: NotRequired[bool]
 
 
 class DiscordEmbed(TypedDict):
     """Needs a title, description, image or fields; all embeds together at most 6000 characters."""
+    #: Embed title.
     title: NotRequired[str]
+    #: Embed text.
     description: NotRequired[str]
     #: Title link.
     url: NotRequired[str]
@@ -80,27 +90,35 @@ class DiscordEmbed(TypedDict):
     color: NotRequired[Union[int, str]]
     #: Image under the embed (Discord fetches it).
     imageUrl: NotRequired[str]
+    #: Name and value pairs.
     fields: NotRequired[List[DiscordEmbedFieldsItem]]
 
 
 class DiscordPoll(TypedDict):
     """A poll; it cannot be edited later."""
+    #: Poll question.
     question: str
+    #: Answer texts.
     answers: List[str]
     #: Default 24.
     durationHours: NotRequired[int]
+    #: Allow several answers. Default false.
     allowMultiselect: NotRequired[bool]
 
 
 class PostOptionsInstagramUserTagsItem(TypedDict):
     #: Username, without @
     username: str
+    #: From the left, 0-1.
     x: NotRequired[float]
+    #: From the top, 0-1.
     y: NotRequired[float]
+    #: Media item, 0-based. Default 0.
     mediaIndex: NotRequired[int]
 
 
 class PostOptionsInstagram(TypedDict):
+    """Instagram options."""
     #: Text for this platform instead of the post's `text`.
     text: NotRequired[str]
     #: First comment for this platform instead of the post's `firstComment`; `""` posts none here.
@@ -120,6 +138,7 @@ class PostOptionsInstagram(TypedDict):
 
 
 class PostOptionsFacebook(TypedDict):
+    """Facebook options."""
     #: Text for this platform instead of the post's `text`.
     text: NotRequired[str]
     #: First comment for this platform instead of the post's `firstComment`; `""` posts none here.
@@ -129,6 +148,7 @@ class PostOptionsFacebook(TypedDict):
 
 
 class PostOptionsLinkedin(TypedDict):
+    """LinkedIn options."""
     #: Text for this platform instead of the post's `text`.
     text: NotRequired[str]
     #: First comment for this platform instead of the post's `firstComment`; `""` posts none here.
@@ -146,6 +166,7 @@ class PostOptionsLinkedin(TypedDict):
 
 
 class PostOptionsTiktok(TypedDict):
+    """TikTok options."""
     #: Text for this platform instead of the post's `text`.
     text: NotRequired[str]
     #: Required unless `inboxDraft`; no default, the user picks it from the account's `platformMetadata.privacyLevelOptions`.
@@ -175,6 +196,7 @@ class PostOptionsTiktok(TypedDict):
 
 
 class PostOptionsThreads(TypedDict):
+    """Threads options."""
     #: Text for this platform instead of the post's `text`.
     text: NotRequired[str]
     #: First comment for this platform instead of the post's `firstComment`; `""` posts none here.
@@ -184,6 +206,7 @@ class PostOptionsThreads(TypedDict):
 
 
 class PostOptionsTwitter(TypedDict):
+    """X options."""
     #: Text for this platform instead of the post's `text`.
     text: NotRequired[str]
     #: First comment for this platform instead of the post's `firstComment`; `""` posts none here.
@@ -193,6 +216,7 @@ class PostOptionsTwitter(TypedDict):
 
 
 class PostOptionsDiscord(TypedDict):
+    """Discord options."""
     #: Text for this platform instead of the post's `text`.
     text: NotRequired[str]
     #: Rich embeds under the message.
@@ -207,6 +231,7 @@ class PostOptionsDiscord(TypedDict):
 
 
 class PostOptionsTelegram(TypedDict):
+    """Telegram options."""
     #: Text for this platform instead of the post's `text`.
     text: NotRequired[str]
     #: Format the text with Telegram's rules (escape plain characters); omit for plain text.
@@ -215,12 +240,14 @@ class PostOptionsTelegram(TypedDict):
     disableNotification: NotRequired[bool]
     #: No forwarding or saving.
     protectContent: NotRequired[bool]
+    #: No link preview.
     disableLinkPreview: NotRequired[bool]
     #: Send media as files, not recompressed.
     sendAsDocument: NotRequired[bool]
 
 
 class PostOptionsBluesky(TypedDict):
+    """Bluesky options."""
     #: Text for this platform instead of the post's `text`.
     text: NotRequired[str]
     #: First comment for this platform instead of the post's `firstComment`; `""` posts none here.
@@ -230,6 +257,7 @@ class PostOptionsBluesky(TypedDict):
 
 
 class PostOptionsYoutube(TypedDict):
+    """YouTube options."""
     #: Video description for YouTube instead of the post's `text`.
     text: NotRequired[str]
     #: First comment for this platform instead of the post's `firstComment`; `""` posts none here.
@@ -253,6 +281,7 @@ class PostOptionsYoutube(TypedDict):
 
 
 class PostOptionsPinterest(TypedDict):
+    """Pinterest options."""
     #: Pin description for Pinterest instead of the post's `text`.
     text: NotRequired[str]
     #: The board to save the Pin to. When omitted: the account's default board (accounts_set_board). See accounts_list_boards for the ids.
@@ -263,24 +292,38 @@ class PostOptionsPinterest(TypedDict):
 
 class PostOptions(TypedDict):
     """Per-platform options keyed by platform. Every platform accepts `text`, the platforms that take a first comment accept `firstComment` and the ones that take a thread (X, Bluesky, Threads) accept `thread`; see GET /api/platforms for the rest."""
+    #: Instagram options.
     instagram: NotRequired[PostOptionsInstagram]
+    #: Facebook options.
     facebook: NotRequired[PostOptionsFacebook]
+    #: LinkedIn options.
     linkedin: NotRequired[PostOptionsLinkedin]
+    #: TikTok options.
     tiktok: NotRequired[PostOptionsTiktok]
+    #: Threads options.
     threads: NotRequired[PostOptionsThreads]
+    #: X options.
     twitter: NotRequired[PostOptionsTwitter]
+    #: Discord options.
     discord: NotRequired[PostOptionsDiscord]
+    #: Telegram options.
     telegram: NotRequired[PostOptionsTelegram]
+    #: Bluesky options.
     bluesky: NotRequired[PostOptionsBluesky]
+    #: YouTube options.
     youtube: NotRequired[PostOptionsYoutube]
+    #: Pinterest options.
     pinterest: NotRequired[PostOptionsPinterest]
 
 
 class PostOptionsUpdateInstagramUserTagsItem(TypedDict):
     #: Username, without @
     username: str
+    #: From the left, 0-1.
     x: NotRequired[float]
+    #: From the top, 0-1.
     y: NotRequired[float]
+    #: Media item, 0-based. Default 0.
     mediaIndex: NotRequired[int]
 
 
@@ -399,6 +442,7 @@ class PostOptionsUpdateTelegram(TypedDict):
     disableNotification: NotRequired[bool]
     #: No forwarding or saving.
     protectContent: NotRequired[bool]
+    #: No link preview.
     disableLinkPreview: NotRequired[bool]
     #: Send media as files, not recompressed.
     sendAsDocument: NotRequired[bool]
@@ -447,16 +491,27 @@ class PostOptionsUpdatePinterest(TypedDict):
 
 class PostOptionsUpdate(TypedDict):
     """Per-platform options to change. Each platform key you send replaces that platform's options as a whole (send every field you want to keep, e.g. both `text` and `placement`); `null` removes them. Platforms you leave out keep their options."""
+    #: Instagram options; null removes them.
     instagram: NotRequired[Optional[PostOptionsUpdateInstagram]]
+    #: Facebook options; null removes them.
     facebook: NotRequired[Optional[PostOptionsUpdateFacebook]]
+    #: LinkedIn options; null removes them.
     linkedin: NotRequired[Optional[PostOptionsUpdateLinkedin]]
+    #: TikTok options; null removes them.
     tiktok: NotRequired[Optional[PostOptionsUpdateTiktok]]
+    #: Threads options; null removes them.
     threads: NotRequired[Optional[PostOptionsUpdateThreads]]
+    #: X options; null removes them.
     twitter: NotRequired[Optional[PostOptionsUpdateTwitter]]
+    #: Discord options; null removes them.
     discord: NotRequired[Optional[PostOptionsUpdateDiscord]]
+    #: Telegram options; null removes them.
     telegram: NotRequired[Optional[PostOptionsUpdateTelegram]]
+    #: Bluesky options; null removes them.
     bluesky: NotRequired[Optional[PostOptionsUpdateBluesky]]
+    #: YouTube options; null removes them.
     youtube: NotRequired[Optional[PostOptionsUpdateYoutube]]
+    #: Pinterest options; null removes them.
     pinterest: NotRequired[Optional[PostOptionsUpdatePinterest]]
 
 
@@ -1673,12 +1728,17 @@ class FeedbackSubmitBodyError(TypedDict):
 
 
 class FeedbackSubmitBodyRecentRequestsItem(TypedDict):
+    #: HTTP method
     method: str
+    #: API path
     path: str
     #: Null when the request got no response
     status: Optional[int]
+    #: The `X-Request-Id` of the response, or null
     requestId: Optional[str]
+    #: `error.code`, or null
     errorCode: Optional[str]
+    #: `error.message`, or null
     errorMessage: Optional[str]
     #: ISO 8601 timestamp
     at: str
