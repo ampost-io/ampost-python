@@ -227,7 +227,7 @@ httpx, the only runtime dependency besides `typing_extensions`.
 - [API docs](https://ampost.io/docs?ref=github) and [llms.txt](https://ampost.io/llms.txt?ref=github)
 - [MCP server](https://ampost.io/docs/mcp?ref=github)
 - [Pricing](https://ampost.io/pricing?ref=github)
-- [Node.js SDK](https://github.com/ampost-io/ampost-node)
+- [Node.js SDK](https://github.com/ampost-io/ampost-node) and [Ruby SDK](https://github.com/ampost-io/ampost-ruby)
 
 ## License
 
