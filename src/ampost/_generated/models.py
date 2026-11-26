@@ -1316,7 +1316,7 @@ class AnalyticsUnavailableAccount(TypedDict):
     #: Social platform: instagram, facebook, linkedin, tiktok, threads, twitter, discord, telegram, bluesky, youtube, pinterest
     platform: Literal["instagram", "facebook", "linkedin", "tiktok", "threads", "twitter", "discord", "telegram", "bluesky", "youtube", "pinterest"]
     platformSetId: Optional[str]
-    #: `not_available_on_platform`: the platform has no analytics (Discord); Facebook, Instagram, Threads, TikTok, LinkedIn, Bluesky, X, YouTube, Pinterest and Telegram have them. `opt_in_required`: an X account whose analytics are off; X reads cost X units, turn them on with accounts_set_analytics. `platform_disabled`: LinkedIn, until Ampost's LinkedIn app is approved for the Community Management API. `page_not_selected`: the Facebook Page connection predates Page selection; reconnect it. `account_inactive`: the account is disconnected.
+    #: `not_available_on_platform`: the platform has no analytics (Discord); Facebook, Instagram, Threads, TikTok (coming soon), Bluesky, X, YouTube, Pinterest and Telegram have them. `opt_in_required`: an X account whose analytics are off; X reads cost X units, turn them on with accounts_set_analytics. `platform_disabled`: LinkedIn, which is coming soon to Ampost. `page_not_selected`: the Facebook Page connection predates Page selection; reconnect it. `account_inactive`: the account is disconnected.
     reason: Literal["not_available_on_platform", "opt_in_required", "platform_disabled", "page_not_selected", "account_inactive"]
 
 
