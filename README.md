@@ -13,14 +13,14 @@ with one call.
 ## Install
 
 ```sh
-pip install git+https://github.com/ampost-io/ampost-python
+pip install ampost
 ```
 
-The package is coming to PyPI as `ampost`; until then, install it from this repo as above.
+The package is on [PyPI](https://pypi.org/project/ampost/) as `ampost`.
 
 ## Quick start
 
-Create an API key in [Settings, API keys](https://ampost.io/app/settings/api-keys?ref=github), connect
+Create an API key in [Setup → API keys](https://ampost.io/app/settings/api-keys?ref=github), connect
 Bluesky and Threads in the [dashboard](https://ampost.io/app?ref=github), then:
 
 ```python
