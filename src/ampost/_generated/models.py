@@ -1529,8 +1529,8 @@ class Webhook(TypedDict):
     secretPreview: str
     #: False when you turned the webhook off, or Ampost did
     enabled: bool
-    #: `failing`: turned off by Ampost after deliveries kept failing. Fix the receiver, then set `enabled` to true. `key_revoked`: turned off because the API key or app that created it (or last changed its URL or secret) was revoked, or the app lost `webhooks:write`. Only the account owner can turn it back on, in the Ampost dashboard; the API refuses with `WEBHOOK_KEY_REVOKED`.
-    disabledReason: Optional[Literal["failing", "key_revoked"]]
+    #: `failing`: turned off by Ampost after deliveries kept failing. Fix the receiver, then set `enabled` to true. `key_revoked`: turned off because the API key or app that created it (or last changed its URL or secret) was revoked, or the app lost `webhooks:write`. Only the account owner can turn it back on, in the Ampost dashboard; the API refuses with `WEBHOOK_KEY_REVOKED`. `member_left`: turned off because the person who added it (or last changed its URL) left the account; check the URL before setting `enabled` to true.
+    disabledReason: Optional[Literal["failing", "key_revoked", "member_left"]]
     disabledAt: Optional[str]
     #: Deliveries in a row that failed after all retries; a success resets it
     consecutiveFailures: int
